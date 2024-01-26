@@ -12,6 +12,7 @@ use App\Models\UserPersonalData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use \Illuminate\Foundation\Auth\AuthenticatesUsers; 
 
 class AccountController extends Controller
 {
@@ -52,10 +53,12 @@ class AccountController extends Controller
             ], 500);
         }
     }
+    public function validateRequest($request){
+    }
     public function login(Request $request, User $user){
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string',
         ]);
         
         if ($validator->fails()) { 
@@ -66,14 +69,22 @@ class AccountController extends Controller
 
             return response()->json([ 'validator_failed' => $response], 401);   
         }
-        $user = $user->where('email', $request->email)->select(['id','name', 'email', 'status'])->get()->first();
-        $token = $user->createToken('eight_user_token');
-        return response()->json([
-            'token' => $token->plainTextToken,
-            'data' =>[
-                'user' => $user
-            ]
-        ]);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = $user->where('email', $request->email)->select(['id','name', 'email', 'status'])->get()->first();
+            $token = $user->createToken('eight_user_token');
+            return response()->json([
+                'token' => $token->plainTextToken,
+                'data' =>[
+                    'user' => $user
+                ]
+            ]);
+        } else {
+            // Go back on error (or do what you want)
+            return response()->json([
+                'msg' => 'ERROR'
+            ], 401);
+        }
+        
     }
     public function update(Request $request, User $user, $id){
         $validator = Validator::make($request->all(), [
