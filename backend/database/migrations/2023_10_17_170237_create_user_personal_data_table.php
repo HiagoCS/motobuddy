@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->integer("user_id");
             $table->longtext("cnh_src")->nullable()->default(null);
-            $table->string("phone", 11)->nullable()->default(null);
             $table->timestamps();
         });
     }

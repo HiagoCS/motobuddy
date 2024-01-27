@@ -30,4 +30,20 @@
         }
       }
     }
+    .nav-footer{
+      position: absolute;
+      width: 24.9vw;
+      bottom: 0;
+      cursor: pointer;
+      .nav-items{
+        background-color: $background-red;
+        /* topo | direita | inferior | esquerda */
+        margin: 1vh 0 1vh 0;
+        width: 100%;
+        transition: width ease-in-out 0.3s;
+        .item{
+          text-decoration: none; color: white;
+        }
+      }
+    }
   }
