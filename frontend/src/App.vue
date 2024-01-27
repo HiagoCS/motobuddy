@@ -43,6 +43,8 @@ export default{
   },
   created(){
     this.items = this.updateNav;
+    if(!this.$root.isLoggedIn &&
+    this.$router.currentRoute.value.name != "home") this.$router.push("login");
   },
   methods:{
     async userData(){
