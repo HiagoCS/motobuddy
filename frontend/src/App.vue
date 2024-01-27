@@ -20,10 +20,10 @@ export default{
       if(this.isLoggedIn){
         return [{
           title:'Veiculos',
-          route:'home/veiculos'
+          route:'/home/veiculos'
         },{
           title:'Contatos',
-          route:'home/contatos'
+          route:'/home/contatos'
         }]
       }else{
         return [{
@@ -52,6 +52,11 @@ export default{
         const {data} = await axios.get('user', {headers:{'Authorization':`Bearer ${VueCookie.get('token')}`}});
         this.user = data;
       }else this.user = {};
+    },
+    loggout(){
+      this.isLoggedIn = false;
+      VueCookie.delete("token");
+      this.$router.push("/");
     }
   }
 }
