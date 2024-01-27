@@ -1,0 +1,33 @@
+.nav-main{
+    .nav-header{
+      background-color: $background-red;
+      .logo-div{
+        img{
+          height: 75px;
+          width: 75px;
+        }
+      }
+      .config-div{
+        .config-icon{
+          font-size: 40px; 
+          color: white;
+        }
+      }
+    }
+    .nav-body{
+      .nav-items{
+        background-color: $background-red;
+        /* topo | direita | inferior | esquerda */
+        margin: 1vh 0 1vh 0;
+        width: 100%;
+        transition: width ease-in-out 0.3s;
+        .item{
+          text-decoration: none; color: white;
+        }
+        &:hover{
+          cursor: pointer;
+          width: 93%;
+        }
+      }
+    }
+  }

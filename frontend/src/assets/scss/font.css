@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Quicksand-Light';
+    src: url("../fonts/quicksand/Quicksand_Light.otf");
+}
+
+@font-face{
+    font-family: 'Quicksand-Light-Oblique';
+    src: url("../fonts/quicksand/Quicksand_Light_Oblique.otf");
+}
+
+@font-face {
+    font-family: 'Quicksand-Regular';
+    src: url("../fonts/quicksand/Quicksand_Book.otf");
+}
+
+@font-face{
+    font-family: 'Quicksand-Regular-Oblique';
+    src: url("../fonts/quicksand/Quicksand_Book_Oblique.otf");
+}
+
+@font-face {
+    font-family: 'Quicksand-Bold';
+    src: url("../fonts/quicksand/Quicksand_Bold.otf");
+}
+
+@font-face{
+    font-family: 'Quicksand-Bold-Oblique';
+    src: url("../fonts/quicksand/Quicksand_Bold_Oblique.otf");
+}
+
+@font-face {
+    font-family: 'Quicksand-Bold';
+    src: url("../fonts/quicksand/Quicksand_Bold.otf");
+}

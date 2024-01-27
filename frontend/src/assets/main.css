@@ -1,0 +1,8 @@
+@import './base.css';
+@import "./scss/font.css";
+@import 'bootstrap';
+
+
+main{
+    overflow: hidden;
+}
