@@ -1,0 +1,29 @@
+.form-title{
+    color: white;
+    font-size: 30px;
+}
+.input-group{
+    width: 90%;
+    position: relative;
+    margin: 20px 0;
+    label{
+        position: absolute;
+        top:50%;
+        left: 5px;
+        transform: translateY(-50%);
+        padding: 0 5px;
+        pointer-events: none;
+        z-index: 1;
+        transition: 0.3s;
+        font-size: 20px;
+    }
+    input{
+        z-index: 0;
+        &:focus~label,
+        &:valid~label{
+            top: -13px;
+            color: white;
+            font-family: "Quicksand-Bold";
+        }
+    }
+}

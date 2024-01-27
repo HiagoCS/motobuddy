@@ -4,31 +4,8 @@
             <h1 class="title">motoBuddy</h1>
         </div>
         <div class="col-6 form">
-            <div class="d-flex flex-column align-items-center col-12">
-                <p class="form-title">Ainda não tem conta?</p>
-                <div class="d-flex flex-column align-items-center col-12">
-                    <div class="d-flex col-11 input-group">
-                        <input type="text" class="form-control" v-model="user.name" required>
-                        <label for="">Nome Completo</label>
-                    </div>
-                    <div class="d-flex col-11 input-group">
-                        <input type="text" class="form-control" v-model="user.email" required>
-                        <label for="">E-mail</label>
-                    </div>
-                    <div class="d-flex col-11 input-group">
-                        <input type="text" class="form-control" v-model="user.phone" required>
-                        <label for="">Celular</label>
-                    </div>
-                    <div class="d-flex col-11 input-group">
-                        <input type="text" class="form-control" v-model="user.password" required>
-                        <label for="">Senha</label>
-                    </div>
-                    <div class="d-grid col-6">
-                        <button class="btn btn-primary" @click="submit">Cadastrar</button>
-                    </div>
-                    <br>
-                </div>
-            </div>
+            <UserRegisterFrm></UserRegisterFrm>
+            
         </div>
     </div>
 </template>
@@ -36,12 +13,18 @@
 <script>
     import api from 'axios'
     import { useRouter } from 'vue-router';
+    import UserRegisterFrm from "./components/forms/index.vue"
     export default{
+        components:{UserRegisterFrm},
         async created(){
             if(this.$root.isLoggedIn) await this.$router.push("/");
         },
         data(){
             return{
+                checkFrm:{
+                    user:false,
+                    addData:false
+                },
                 user:{
                     name: this.name,
                     email: this.email,
@@ -50,6 +33,9 @@
             }
         },
         methods:{
+            async next(){
+                
+            },
             async submit(){
                 const router = useRouter();
                 await api.post('/user/store', this.user);
