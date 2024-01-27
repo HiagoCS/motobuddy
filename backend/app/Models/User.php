@@ -17,6 +17,7 @@ class User extends Authenticatable
         'name',
         'password',
         'email',
+        'phone',
         'email_verified_date',
         'reset_pass',
         'status'
@@ -28,7 +29,12 @@ class User extends Authenticatable
       if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
         return ['response' => "Invalid Email", "stts" => 500];
       }
-      $user_data = ['name' => $data['name'], 'password' => $data['password'],'email' => $data['email']];
+      if(!isset($data['phone']))
+        $data['phone'] = null;
+      if(!preg_match('/^[0-9]{11}+$/', intval($data['phone'])) && isset($data['phone'])) {
+        return ['response' => "Invalid Phone Number", "stts" => 500];
+      } 
+      $user_data = ['name' => $data['name'], 'password' => $data['password'],'email' => $data['email'], 'phone' => $data['phone']];
       return [
         'user_data' => $user_data
       ];
