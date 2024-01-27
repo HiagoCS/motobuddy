@@ -5,7 +5,7 @@ export default{
   computed:{
     logo(){
       if(this.$root.isLoggedIn) return {route:'/home/profile/me'};
-      if(!this.$root.isLoggedIn) return {route:"/home"};
+      if(!this.$root.isLoggedIn) return {route:""};
       
     }
   }
