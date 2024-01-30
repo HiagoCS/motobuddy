@@ -33,10 +33,14 @@ class User extends Authenticatable
         $data['phone'] = null;
       if(!preg_match('/^[0-9]{11}+$/', intval($data['phone'])) && isset($data['phone'])) {
         return ['response' => "Invalid Phone Number", "stts" => 500];
-      } 
+      }
+      if(!isset($data['profile_src']))
+        $data['profile_src'] = null;
       $user_data = ['name' => $data['name'], 'password' => $data['password'],'email' => $data['email'], 'phone' => $data['phone']];
+      $personal_data =  ['profile_src' => $data['profile_src']];
       return [
-        'user_data' => $user_data
+        'user_data' => $user_data,
+        'personal_data' => $personal_data
       ];
     }
 
