@@ -4,8 +4,9 @@
             <h1 class="title">motoBuddy</h1>
         </div>
         <div class="col-6 form">
-            <UserRegisterFrm></UserRegisterFrm>
-            
+            <UserRegisterFrm v-if="!check.user" @next="this.check.user=true"/>
+            <AddDataFrm 
+                v-if="check.user&&!check.addData" @click="submit"/>
         </div>
     </div>
 </template>
@@ -14,14 +15,15 @@
     import api from 'axios'
     import { useRouter } from 'vue-router';
     import UserRegisterFrm from "./components/forms/index.vue"
+    import AddDataFrm from "./components/forms/AddDataFrm/index.vue"
     export default{
-        components:{UserRegisterFrm},
+        components:{UserRegisterFrm, AddDataFrm},
         async created(){
             if(this.$root.isLoggedIn) await this.$router.push("/");
         },
         data(){
             return{
-                checkFrm:{
+                check:{
                     user:false,
                     addData:false
                 },
@@ -29,13 +31,11 @@
                     name: this.name,
                     email: this.email,
                     password: this.password,
+                    phone: this.phone
                 }
             }
         },
         methods:{
-            async next(){
-                
-            },
             async submit(){
                 const router = useRouter();
                 await api.post('/user/store', this.user);

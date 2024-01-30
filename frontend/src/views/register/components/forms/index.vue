@@ -19,12 +19,29 @@
                 <label for="">Senha</label>
             </div>
             <div class="d-grid col-6">
-                <button class="btn btn-primary" @click="$root.next">Proximo</button>
+                <button class="btn btn-primary" @click="if(this.check)this.$emit('next');">Proximo</button>
             </div>
             <br>
         </div>
     </div>
 </template>
 
+<script>
+export default{
+    computed:{
+        check(){
+                if(!this.$root.user.name)
+                    return false;
+                if(!this.$root.user.email)
+                    return false; 
+                if(!this.$root.user.password)
+                    return false;
+                if(!this.$root.user.phone)
+                    return false;
+                return true;
+            }
+    }
+}
+</script>
 <style lang="scss" src="./style.scss" scoped>
 </style>
