@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer("user_id");
             $table->longtext("cnh_src")->nullable()->default(null);
+            $table->longtext("profile_src")->nullable()->default(null);
             $table->timestamps();
         });
     }
