@@ -43,6 +43,11 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'vue-assets' => [
+            'driver' => 'local',
+            'root' => '../../frontend/src/assets/',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',

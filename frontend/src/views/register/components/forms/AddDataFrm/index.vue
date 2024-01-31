@@ -16,22 +16,22 @@
                 </div>
                 <div class="d-flex align-items-center flex-column col-8">
                     <div class="d-flex justify-content-center col-12 input-group">
-                        <input type="text" class="form-control" v-model="this.$root.addData.nm_cnh" required>
+                        <input type="text" class="form-control" v-model="this.addData.nm_cnh" required>
                         <label for="normal">Nº de registro (CNH)</label>
                     </div>
                     <div class="d-flex justify-content-center col-12 input-group">
-                        <input type="text" class="form-control" v-model="this.$root.addData.cpf" required>
+                        <input type="text" class="form-control" v-model="this.addData.cpf" required>
                         <label for="normal">CPF</label>
                     </div>
                     <div class="d-flex justify-content-center col-12 input-group">
-                        <input type="date" class="form-control" v-model="this.$root.addData.bday" required>
+                        <input type="date" class="form-control" v-model="this.addData.bday" required>
                         <label for="date">Data de Nascimento</label>
                     </div>
                 </div>
                 
             </div>
             <div class="col-10 d-grid gap-2">
-                <button class="btn btn-primary" type="button" @click="this.$root.submit">Cadastrar</button>
+                <button class="btn btn-primary" type="button" @click="$root.submit">Cadastrar</button>
             </div>
             <br>
         </div>
@@ -41,7 +41,22 @@
     export default{
         data(){
             return{
-                url:null
+                url:null,
+                addData:{
+                    nm_cnh: this.nm_cnh,
+                    bday: this.bday,
+                    cpf:this.cpf
+                }
+            }
+        },
+        computed:{
+            cnh(cnh_num){
+                const regex = /^[0-9]{11}$/;
+                if (regex.test(cnh_num)) {
+                    return cnh_num;
+                } else {
+                    return false;
+                }
             }
         },
         methods:{
@@ -51,6 +66,11 @@
             },
             chooseFiles(){
                 document.getElementById('inputFile').click()
+            },
+            async submit(){
+                const router = useRouter();
+                await api.post('/user/store', this.user);
+                await this.$router.push("login")
             }
         }
     }

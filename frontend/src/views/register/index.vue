@@ -6,7 +6,7 @@
         <div class="col-6 form">
             <UserRegisterFrm v-if="!check.user" @next="this.check.user=true"/>
             <AddDataFrm 
-                v-if="check.user&&!check.addData" @click="submit"/>
+                v-if="check.user&&!check.addData"/>
         </div>
     </div>
 </template>
@@ -33,11 +33,7 @@
                     password: this.password,
                     phone: this.phone
                 },
-                addData:{
-                    nm_cnh: this.nm_cnh,
-                    bday: this.bday,
-                    cpf:this.cpf
-                }
+                
             }
         },
         methods:{

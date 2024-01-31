@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\UserPersonalData;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('user')->group(function (){
     Route::middleware('auth:sanctum')->group(function (){
         Route::get('/', function (Request $request) {
-            return $request->user();
+            return response()->json(['user' => $request->user(), 'additional' => UserPersonalData::where("user_id", $request->user()->id)->get()->first()]);
         });
 
         Route::put('/update/{id}', "App\Http\Controllers\User\AccountController@update");
@@ -29,3 +30,4 @@ Route::prefix('user')->group(function (){
 
     Route::post("/store", "App\Http\Controllers\User\AccountController@store");
 });
+Route::post('uploadImage/{userID}',"App\Http\Controllers\User\AccountController@uploadProfileImage");

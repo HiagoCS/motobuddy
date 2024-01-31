@@ -13,11 +13,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use \Illuminate\Foundation\Auth\AuthenticatesUsers; 
+use Illuminate\Support\Facades\Storage;
 
 class AccountController extends Controller
 {
     public function index(){
         return response("Hello World", 200);
+    }
+    public function uploadProfileImage(Request $request, $userID){
+        if($request->hasFile('profile_pic')){
+            $storePic = Storage::disk('vue-assets')->putFileAs('/'.$request->file('profile_pic')->extension().'/'.$userID,  $request->file('profile_pic'), "user_logo.".$request->file('profile_pic')->extension());
+            if($storePic){
+                $personalData = UserPersonalData::where("user_id", $userID)->get()->first();
+                $personalData->update(['profile_src' => "assets/".$request->file('profile_pic')->extension()."/".$userID."/user_logo.".$request->file('profile_pic')->extension()]);
+            }
+        }else{
+            return response("not has file", 500);
+        }
     }
     public function store(Request $request, User $user){
         try {
@@ -52,8 +64,6 @@ class AccountController extends Controller
                 'msg' => $th->getMessage()
             ], 500);
         }
-    }
-    public function validateRequest($request){
     }
     public function login(Request $request, User $user){
         $validator = Validator::make($request->all(), [

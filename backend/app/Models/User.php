@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\UserPersonalData;
+use Illuminate\Support\Facades\Storage;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory;
@@ -33,11 +34,10 @@ class User extends Authenticatable
         $data['phone'] = null;
       if(!preg_match('/^[0-9]{11}+$/', intval($data['phone'])) && isset($data['phone'])) {
         return ['response' => "Invalid Phone Number", "stts" => 500];
-      }
-      if(!isset($data['profile_src']))
-        $data['profile_src'] = null;
+      }    
+
       $user_data = ['name' => $data['name'], 'password' => $data['password'],'email' => $data['email'], 'phone' => $data['phone']];
-      $personal_data =  ['profile_src' => $data['profile_src']];
+      $personal_data =  ['profile_src' => null];
       return [
         'user_data' => $user_data,
         'personal_data' => $personal_data
@@ -53,7 +53,7 @@ class User extends Authenticatable
           return ['response' => "Personal data error", "data" => $data
           , "stts" => 500];
         }
-        return ['response' => "Usuário Criado", "stts" => 200];
+        return ['response' => "Usuário Criado", "stts" => 200, "userID" => $personalData->user_id];
       }
 
     }
