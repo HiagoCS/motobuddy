@@ -31,7 +31,7 @@
                 
             </div>
             <div class="col-10 d-grid gap-2">
-                <button class="btn btn-primary" type="button" @click="$root.submit">Cadastrar</button>
+                <button class="btn btn-primary" type="button" @click="this.$emit('returnData', this.addData)">Cadastrar</button>
             </div>
             <br>
         </div>
@@ -45,7 +45,8 @@
                 addData:{
                     nm_cnh: this.nm_cnh,
                     bday: this.bday,
-                    cpf:this.cpf
+                    cpf:this.cpf,
+                    profile_src:null
                 }
             }
         },
@@ -62,15 +63,11 @@
         methods:{
             previewImg(e){
                 const file = e.target.files[0];
+                this.addData.profile_src = file;
                 this.url = URL.createObjectURL(file);
             },
             chooseFiles(){
                 document.getElementById('inputFile').click()
-            },
-            async submit(){
-                const router = useRouter();
-                await api.post('/user/store', this.user);
-                await this.$router.push("login")
             }
         }
     }

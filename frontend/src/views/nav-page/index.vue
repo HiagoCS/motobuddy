@@ -1,12 +1,37 @@
 <script>
 import { RouterLink } from 'vue-router'
+import api from '@/api/axios';
+import VueCookie from 'vue-cookie';
 export default{
+  async created(){
+    const {data} = api.get('user', {headers:{'Authorization':`Bearer ${VueCookie.get('token')}`}});
+    if(data.additional.profile_src)
+      this.url = `/src/${data.additional.profile_src}`;
+    else
+      this.url = "/src/assets/png/default_user.png"
+  },
   props:['items'],
+  data(){
+    return{
+      url:null,
+      appLoaded:false
+    }
+  },
   computed:{
     logo(){
-      if(this.$root.isLoggedIn) return {route:'/home/profile/me'};
+      if(this.$root.isLoggedIn) {
+        api.get('user', {headers:{'Authorization':`Bearer ${VueCookie.get('token')}`}})
+          .then(({data}) =>{
+            if(data.additional.profile_src){
+              this.url = `/src/${data.additional.profile_src}`;
+            }
+            else{
+              this.url = "/src/assets/png/default_user.png"
+            }
+          }).catch(err => {return false})
+          return {route:'/home/profile/me'}
+      };
       if(!this.$root.isLoggedIn) return {route:""};
-      
     }
   }
 }
@@ -18,8 +43,8 @@ export default{
         <div class="d-flex flex-row col-12 justify-content-between nav-header">
           <div class="col-6 logo-div">
             <RouterLink :to="logo.route">
-              <img v-if="this.$root.isLoggedIn" src="@/assets/png/default_user.png">
-              <img v-else src="@/assets/png/mb_logo.png">
+              <img v-if="this.$root.isLoggedIn && url" :src="url" style="border-radius: 50%;">
+              <img v-if="!this.$root.isLoggedIn" src="@/assets/png/mb_logo.png">
             </RouterLink>
           </div>
           <div class="d-flex col-6 justify-content-end align-items-center config-div">

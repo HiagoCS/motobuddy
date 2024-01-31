@@ -4,9 +4,10 @@
             <h1 class="title">motoBuddy</h1>
         </div>
         <div class="col-6 form">
-            <UserRegisterFrm v-if="!check.user" @next="this.check.user=true"/>
+            <UserRegisterFrm v-if="!check.user" @next="(user) =>{this.check.user=true;this.user=user;}"/>
             <AddDataFrm 
-                v-if="check.user&&!check.addData"/>
+                v-if="check.user&&!check.addData"
+                @returnData="(addData) =>{this.user=Object.assign(addData,this.user)}"/>
         </div>
     </div>
 </template>
@@ -27,20 +28,25 @@
                     user:false,
                     addData:false
                 },
-                user:{
-                    name: this.name,
-                    email: this.email,
-                    password: this.password,
-                    phone: this.phone
-                },
+                user:{}
                 
             }
         },
         methods:{
-            async submit(){
+            async submit(user){
                 const router = useRouter();
-                await api.post('/user/store', this.user);
+                const userID = (await api.post('/user/store', user)).data.userID;
+                const formData = new FormData();
+                formData.append('profile_pic', this.user.profile_src)
+                await api.post(`/uploadImage/${userID}`, formData);
                 await this.$router.push("login")
+            }
+        },
+        watch:{
+            user(){
+                if(this.user.profile_src){
+                    this.submit(this.user);
+                }
             }
         }
     }
