@@ -2,3 +2,55 @@
     color: white;
     font-size: 30px;
 }
+.form{
+    padding: 0vh 1vw 0vh 1vw;
+    .col-8{
+        .input-group{
+            width: 90%;
+            position: relative;
+            margin: 20px 0;
+            label[for=normal]{
+                position: absolute;
+                top:50%;
+                left: 5px;
+                transform: translateY(-50%);
+                padding: 0 5px;
+                pointer-events: none;
+                z-index: 1;
+                transition: 0.3s;
+                font-size: 20px;
+            }
+            label[for=date]{
+                position: absolute;
+                top:50%;
+                left: 5px;
+                transform: translateY(-155%);
+                padding: 0 5px;
+                pointer-events: none;
+                z-index: 1;
+                transition: 0.3s;
+                font-size: 20px;
+            }
+        
+        input{
+            z-index: 0;
+            &:focus~label,
+            &:valid~label{
+                top: 13px;
+                color: white;
+                font-family: "Quicksand-Bold";
+            }
+        }
+        input[type=text]{
+            z-index: 0;
+            &:focus~label,
+            &:valid~label{
+                top: -13px;
+                color: white;
+                font-family: "Quicksand-Bold";
+            }
+        }
+        }
+    }
+    
+}

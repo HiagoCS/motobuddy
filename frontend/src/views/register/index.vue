@@ -32,6 +32,11 @@
                     email: this.email,
                     password: this.password,
                     phone: this.phone
+                },
+                addData:{
+                    nm_cnh: this.nm_cnh,
+                    bday: this.bday,
+                    cpf:this.cpf
                 }
             }
         },
