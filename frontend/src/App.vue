@@ -52,11 +52,6 @@ export default{
         const {data} = await axios.get('user', {headers:{'Authorization':`Bearer ${VueCookie.get('token')}`}});
         this.user = data;
       }else this.user = {};
-    },
-    loggout(){
-      this.isLoggedIn = false;
-      VueCookie.delete("token");
-      this.$router.push("/");
     }
   }
 }
@@ -66,7 +61,7 @@ export default{
   <main>
     <div class="d-flex flex-row main-div">
       <div class="col-3 nav-div">
-        <NavPage :items="items"/>
+        <NavPage :items="items" @loggout="(value) =>{this.isLoggedIn=value}"/>
       </div>
       <div class="d-flex justify-content-center col-9 pages-div">
         <RouterView :user="user"/>

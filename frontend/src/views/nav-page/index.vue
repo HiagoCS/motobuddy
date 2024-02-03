@@ -10,15 +10,29 @@ export default{
     else
       this.url = "/src/assets/png/default_user.png"
   },
+  methods:{
+    loggout(){
+      /* this.isLoggedIn = false; */
+      this.url = "/src/assets/png/default_user.png";
+      this.$emit("loggout", false);
+      VueCookie.delete("token");
+      this.$router.push("/");
+    },
+    profilePage(){
+      this.$root.isLoggedIn = false;
+    }
+  },
   props:['items'],
   data(){
     return{
-      url:null,
-      appLoaded:false
+      url:null
     }
   },
   computed:{
     logo(){
+      if(this.$router.currentRoute.value.name == '/home/profile/me'){
+        console.log("PROFILE PAGE")
+      }
       if(this.$root.isLoggedIn) {
         api.get('user', {headers:{'Authorization':`Bearer ${VueCookie.get('token')}`}})
           .then(({data}) =>{
@@ -58,7 +72,7 @@ export default{
         </div>
         <div class="d-flex flex-column col-12 align-items-center nav-footer" v-if="this.$root.isLoggedIn">
           <div class="d-flex col-12 justify-content-center nav-items" >
-              <div class="item" @click="this.$root.loggout"><h1>Sair</h1></div>
+              <div class="item" @click="this.loggout"><h1>Sair</h1></div>
           </div>
         </div>
       </div>
