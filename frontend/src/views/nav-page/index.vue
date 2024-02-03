@@ -2,13 +2,16 @@
 import { RouterLink } from 'vue-router'
 import api from '@/api/axios';
 import VueCookie from 'vue-cookie';
+import { useRouter } from 'vue-router';
 export default{
   async created(){
     const {data} = api.get('user', {headers:{'Authorization':`Bearer ${VueCookie.get('token')}`}});
-    if(data.additional.profile_src)
-      this.url = `/src/${data.additional.profile_src}`;
-    else
-      this.url = "/src/assets/png/default_user.png"
+    if(data){
+      if(data.additional.profile_src)
+        this.url = `/src/${data.additional.profile_src}`;
+      else
+        this.url = "/src/assets/png/default_user.png"
+    }
   },
   methods:{
     loggout(){
@@ -30,12 +33,15 @@ export default{
   },
   computed:{
     logo(){
-      if(this.$router.currentRoute.value.name == '/home/profile/me'){
-        console.log("PROFILE PAGE")
+      if(this.$router.currentRoute.value.name == 'my-profile'){
+        this.url = "/src/assets/png/mb_logo.png";
+        return {route:'/'}
       }
-      if(this.$root.isLoggedIn) {
+      else{
+        if(this.$root.isLoggedIn && this.$router.currentRoute.value.name != 'my-profile') {
         api.get('user', {headers:{'Authorization':`Bearer ${VueCookie.get('token')}`}})
           .then(({data}) =>{
+            console.log("data", data)
             if(data.additional.profile_src){
               this.url = `/src/${data.additional.profile_src}`;
             }
@@ -44,8 +50,9 @@ export default{
             }
           }).catch(err => {return false})
           return {route:'/home/profile/me'}
-      };
+      }
       if(!this.$root.isLoggedIn) return {route:""};
+      }
     }
   }
 }
@@ -56,7 +63,7 @@ export default{
       <div class="d-flex flex-column col-12 nav-main">
         <div class="d-flex flex-row col-12 justify-content-between nav-header">
           <div class="col-6 logo-div">
-            <RouterLink :to="logo.route">
+            <RouterLink :to="logo ? logo.route:''">
               <img v-if="this.$root.isLoggedIn && url" :src="url" style="border-radius: 50%;">
               <img v-if="!this.$root.isLoggedIn" src="@/assets/png/mb_logo.png">
             </RouterLink>
