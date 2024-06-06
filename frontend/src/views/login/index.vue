@@ -110,8 +110,43 @@
                 VueCookie.set("token", data.token)
                 this.$root.isLoggedIn = VueCookie.get('token');
                 await this.$router.push("/")
-                }catch(err){
-                    console.log(err);
+                }catch({response}){
+                    if(response.data.hasOwnProperty('validator_failed')){
+                        const validator = response.data.validator_failed.error;
+                        const keys = Object.keys(validator);
+                        console.log('validator', validator);
+                        let html = "";
+                        const entries = Object.entries(validator);
+                        console.log(entries);
+                        const keyss = [];
+                        const valuess = [];
+                        entries.forEach((values) =>{
+                            keyss.push(values[0])
+                            valuess.push(values[1][0]);
+                        })
+                        keyss.forEach((key) =>{
+                            valuess.forEach((value) =>{
+                                if(value.includes(key)){
+                                    key = this.$t(`login.${key}`);
+                                    if(value.includes('.')) value = value.slice(0, -1);
+                                    if(value.includes(" ")) value = value.split(" ").join("_");
+                                    console.log('value_antigo',value)
+                                    value = this.$t(`login.${value}`) || value;
+                                    console.log('value_novo',value)
+                                    html = `<div style="padding-left:10%;display:flex;flex-direction:row;justify-content: space-between"><strong style='position:absolute'>${key.toUpperCase()}</strong> - <p style="color:red; margin-left: 34.5%">${value}</p></div>\n${html}`
+                                    console.log(key)
+                                }
+                            });
+                        });
+                        console.log(html);
+                        this.$swal({
+                            title: '⛔ Erro de Validação! ⛔',
+                            text: 'Os seguintes campos foram preenchidos incorretamente.',
+                            html: html,
+                            icon: 'error',
+                            confirmButtonText: 'Cool'
+                        })
+                    }
                 }
             }
         }
