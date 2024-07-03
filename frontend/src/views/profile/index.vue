@@ -16,7 +16,7 @@
                     <input @change="previewImg" type="file" id="inputFile" hidden>
                 </div>
                 <div class="col-9 d-flex flex-row align-items-center">
-                    <h4>CU GOSTOSO</h4>
+                    <h4>{{ role_act }}</h4>
                 </div>
                 
             </div>
@@ -25,9 +25,23 @@
 </template>
 <style lang="scss" src="./style.scss" scoped></style>
 <script scoped>
+import api from 'axios';
+import VueCookie from 'vue-cookie';
     export default{
+        async created(){
+            const {data} = await api.get('/role',{headers:{Authorization: `Bearer ${VueCookie.get('token')}` }});
+            if(data.includes('admin')){
+                this.role_act = "ADMINISTRADOR DO CACETE"
+            }else if(data.includes('user')){
+                this.role_act = "USUARIO MORTAL"
+            }else{
+                this.role_act = "ZÉ NINGUÉM"
+            }
+        },
         data(){
             return{
+                roles:[],
+                role_act:'',
                 url:null,
                 data:{
                     nm_cnh: this.nm_cnh,
