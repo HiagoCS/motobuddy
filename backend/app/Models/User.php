@@ -8,10 +8,10 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\UserPersonalData;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory;
-
+    use HasApiTokens, HasFactory, HasRoles;
     protected $table = 'users';
     protected $primaryKey = "id";
     protected $fillable = [
