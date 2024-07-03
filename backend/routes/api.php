@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\UserPersonalData;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,7 @@ Route::prefix('user')->group(function (){
     Route::post("/store", "App\Http\Controllers\User\AccountController@store");
 });
 Route::post('uploadImage/{userID}',"App\Http\Controllers\User\AccountController@uploadProfileImage");
+Route::middleware('auth:sanctum')->get('role', function (Request $request) {
+    return response()->json($request->user()->getRoleNames(), 200);
+    //$user->hasAllRoles(Role::all());
+});

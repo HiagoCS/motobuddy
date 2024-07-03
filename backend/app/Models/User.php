@@ -53,6 +53,7 @@ class User extends Authenticatable
           return ['response' => "Personal data error", "data" => $data
           , "stts" => 500];
         }
+        $user->assignRole('user');
         return ['response' => "Usuário Criado", "stts" => 200, "userID" => $personalData->user_id];
       }
 
